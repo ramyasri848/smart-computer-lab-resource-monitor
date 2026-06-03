@@ -1,4 +1,5 @@
 import streamlit as st
+from cpu_monitor import get_cpu_info
 
 st.set_page_config(
     page_title="Smart Computer Lab Resource Monitoring & Analytics System",
@@ -23,28 +24,39 @@ menu = st.sidebar.radio(
     ]
 )
 
-st.header(menu)
-
 if menu == "Dashboard":
+    st.header("Dashboard")
     st.write("Welcome to the Smart Computer Lab Resource Monitoring & Analytics System")
 
 elif menu == "CPU Monitor":
-    st.write("CPU Monitoring Module")
+    st.header("CPU Monitor")
+
+    cpu_info = get_cpu_info()
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.metric("CPU Usage (%)", f"{cpu_info['cpu_usage']}%")
+        st.metric("Physical Cores", cpu_info["physical_cores"])
+
+    with col2:
+        st.metric("Logical Cores", cpu_info["logical_cores"])
+        st.metric("CPU Frequency (GHz)", cpu_info["frequency"])
 
 elif menu == "Memory Monitor":
-    st.write("Memory Monitoring Module")
+    st.header("Memory Monitor")
 
 elif menu == "Disk Monitor":
-    st.write("Disk Monitoring Module")
+    st.header("Disk Monitor")
 
 elif menu == "Process Monitor":
-    st.write("Process Monitoring Module")
+    st.header("Process Monitor")
 
 elif menu == "Network Monitor":
-    st.write("Network Monitoring Module")
+    st.header("Network Monitor")
 
 elif menu == "Analytics":
-    st.write("Analytics Dashboard")
+    st.header("Analytics")
 
 elif menu == "Reports":
-    st.write("Reports Section")
+    st.header("Reports")
