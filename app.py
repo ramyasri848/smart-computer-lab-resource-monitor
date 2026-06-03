@@ -2,7 +2,7 @@ import streamlit as st
 from cpu_monitor import get_cpu_info
 from memory_monitor import get_memory_info
 from disk_monitor import get_disk_info, get_drive_info
-from process_monitor import get_processes
+from process_monitor import get_processes, get_process_names
 
 # Page Configuration
 st.set_page_config(
@@ -50,6 +50,7 @@ elif menu == "CPU Monitor":
             "CPU Usage (%)",
             f"{cpu_info['cpu_usage']}%"
         )
+
         st.metric(
             "Physical Cores",
             cpu_info["physical_cores"]
@@ -60,6 +61,7 @@ elif menu == "CPU Monitor":
             "Logical Cores",
             cpu_info["logical_cores"]
         )
+
         st.metric(
             "CPU Frequency (GHz)",
             cpu_info["frequency"]
@@ -78,10 +80,12 @@ elif menu == "Memory Monitor":
             "Total RAM (GB)",
             memory["total_ram"]
         )
+
         st.metric(
             "Used RAM (GB)",
             memory["used_ram"]
         )
+
         st.metric(
             "RAM Usage (%)",
             f"{memory['ram_usage']}%"
@@ -92,10 +96,12 @@ elif menu == "Memory Monitor":
             "Available RAM (GB)",
             memory["available_ram"]
         )
+
         st.metric(
             "Swap Total (GB)",
             memory["swap_total"]
         )
+
         st.metric(
             "Swap Used (GB)",
             memory["swap_used"]
@@ -114,6 +120,7 @@ elif menu == "Disk Monitor":
             "Total Storage (GB)",
             disk["total"]
         )
+
         st.metric(
             "Used Storage (GB)",
             disk["used"]
@@ -124,6 +131,7 @@ elif menu == "Disk Monitor":
             "Free Storage (GB)",
             disk["free"]
         )
+
         st.metric(
             "Disk Usage (%)",
             f"{disk['percent']}%"
@@ -141,16 +149,28 @@ elif menu == "Disk Monitor":
         st.write(f"Usage: {drive['percent']}%")
 
 # Process Monitor
+# Process Monitor
 elif menu == "Process Monitor":
     st.header("Process Monitor")
 
-    processes = get_processes()
+    process_names = get_process_names()
+
+    selected_process = st.selectbox(
+        "Search Process",
+        options=[""] + process_names
+    )
+
+    processes = get_processes(selected_process)
 
     st.subheader("Running Processes")
 
     st.dataframe(
         processes,
         use_container_width=True
+    )
+
+    st.success(
+        f"Total Processes Found: {len(processes)}"
     )
 
 # Network Monitor
