@@ -1,6 +1,7 @@
 import streamlit as st
 from cpu_monitor import get_cpu_info
 from memory_monitor import get_memory_info
+from disk_monitor import get_disk_info, get_drive_info
 
 # Page Configuration
 st.set_page_config(
@@ -11,7 +12,7 @@ st.set_page_config(
 # Title
 st.title("Smart Computer Lab Resource Monitoring & Analytics System")
 
-# Sidebar
+# Sidebar Navigation
 st.sidebar.title("Navigation")
 
 menu = st.sidebar.radio(
@@ -44,26 +45,12 @@ elif menu == "CPU Monitor":
     col1, col2 = st.columns(2)
 
     with col1:
-        st.metric(
-            "CPU Usage (%)",
-            f"{cpu_info['cpu_usage']}%"
-        )
-
-        st.metric(
-            "Physical Cores",
-            cpu_info["physical_cores"]
-        )
+        st.metric("CPU Usage (%)", f"{cpu_info['cpu_usage']}%")
+        st.metric("Physical Cores", cpu_info["physical_cores"])
 
     with col2:
-        st.metric(
-            "Logical Cores",
-            cpu_info["logical_cores"]
-        )
-
-        st.metric(
-            "CPU Frequency (GHz)",
-            cpu_info["frequency"]
-        )
+        st.metric("Logical Cores", cpu_info["logical_cores"])
+        st.metric("CPU Frequency (GHz)", cpu_info["frequency"])
 
 # Memory Monitor
 elif menu == "Memory Monitor":
@@ -74,41 +61,41 @@ elif menu == "Memory Monitor":
     col1, col2 = st.columns(2)
 
     with col1:
-        st.metric(
-            "Total RAM (GB)",
-            memory["total_ram"]
-        )
-
-        st.metric(
-            "Used RAM (GB)",
-            memory["used_ram"]
-        )
-
-        st.metric(
-            "RAM Usage (%)",
-            f"{memory['ram_usage']}%"
-        )
+        st.metric("Total RAM (GB)", memory["total_ram"])
+        st.metric("Used RAM (GB)", memory["used_ram"])
+        st.metric("RAM Usage (%)", f"{memory['ram_usage']}%")
 
     with col2:
-        st.metric(
-            "Available RAM (GB)",
-            memory["available_ram"]
-        )
-
-        st.metric(
-            "Swap Total (GB)",
-            memory["swap_total"]
-        )
-
-        st.metric(
-            "Swap Used (GB)",
-            memory["swap_used"]
-        )
+        st.metric("Available RAM (GB)", memory["available_ram"])
+        st.metric("Swap Total (GB)", memory["swap_total"])
+        st.metric("Swap Used (GB)", memory["swap_used"])
 
 # Disk Monitor
 elif menu == "Disk Monitor":
     st.header("Disk Monitor")
-    st.info("Disk Monitoring Module Coming Next")
+
+    disk = get_disk_info()
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.metric("Total Storage (GB)", disk["total"])
+        st.metric("Used Storage (GB)", disk["used"])
+
+    with col2:
+        st.metric("Free Storage (GB)", disk["free"])
+        st.metric("Disk Usage (%)", f"{disk['percent']}%")
+
+    st.subheader("Drive Information")
+
+    drives = get_drive_info()
+
+    for drive in drives:
+        st.write(f"### {drive['drive']}")
+        st.write(f"Total: {drive['total']} GB")
+        st.write(f"Used: {drive['used']} GB")
+        st.write(f"Free: {drive['free']} GB")
+        st.write(f"Usage: {drive['percent']}%")
 
 # Process Monitor
 elif menu == "Process Monitor":
