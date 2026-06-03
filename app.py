@@ -148,7 +148,7 @@ elif menu == "Disk Monitor":
         st.write(f"Free: {drive['free']} GB")
         st.write(f"Usage: {drive['percent']}%")
 
-# Process Monitor
+
 # Process Monitor
 elif menu == "Process Monitor":
     st.header("Process Monitor")
@@ -165,9 +165,9 @@ elif menu == "Process Monitor":
     st.subheader("Running Processes")
 
     st.dataframe(
-        processes,
-        use_container_width=True
-    )
+    processes,
+    width="stretch"
+)
 
     st.success(
         f"Total Processes Found: {len(processes)}"
