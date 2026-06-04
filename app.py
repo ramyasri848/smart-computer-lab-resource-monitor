@@ -9,6 +9,7 @@ from process_monitor import (
     get_top_memory_processes
 )
 from health_score import calculate_health_score
+from alert_manager import get_alerts
 
 
 # Page Configuration
@@ -64,34 +65,20 @@ if menu == "Dashboard":
             health["status"]
         )
 
-# CPU Monitor
-elif menu == "CPU Monitor":
-    st.header("CPU Monitor")
+    st.divider()
 
-    cpu_info = get_cpu_info()
+    st.subheader("System Alerts")
 
-    col1, col2 = st.columns(2)
+    alerts = get_alerts()
 
-    with col1:
-        st.metric(
-            "CPU Usage (%)",
-            f"{cpu_info['cpu_usage']}%"
-        )
+    if alerts:
 
-        st.metric(
-            "Physical Cores",
-            cpu_info["physical_cores"]
-        )
+        for alert in alerts:
+            st.warning(alert)
 
-    with col2:
-        st.metric(
-            "Logical Cores",
-            cpu_info["logical_cores"]
-        )
-
-        st.metric(
-            "CPU Frequency (GHz)",
-            cpu_info["frequency"]
+    else:
+        st.success(
+            "✅ No alerts detected. System is operating normally."
         )
 
 # Memory Monitor
