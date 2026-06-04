@@ -11,6 +11,64 @@ from process_monitor import (
 from health_score import calculate_health_score
 from alert_manager import get_alerts
 from logger import log_system_data
+import pandas as pd
+import plotly.express as px
+
+def show_live_graphs():
+
+    try:
+
+        df = pd.read_csv(
+            "logs/system_log.csv"
+        )
+
+        if len(df) > 50:
+            df = df.tail(50)
+
+        st.subheader("CPU Usage Trend")
+
+        cpu_fig = px.line(
+            df,
+            y="CPU Usage",
+            title="CPU Usage Over Time"
+        )
+
+        st.plotly_chart(
+            cpu_fig,
+            width="stretch"
+        )
+
+        st.subheader("RAM Usage Trend")
+
+        ram_fig = px.line(
+            df,
+            y="RAM Usage",
+            title="RAM Usage Over Time"
+        )
+
+        st.plotly_chart(
+            ram_fig,
+            width="stretch"
+        )
+
+        st.subheader("Disk Usage Trend")
+
+        disk_fig = px.line(
+            df,
+            y="Disk Usage",
+            title="Disk Usage Over Time"
+        )
+
+        st.plotly_chart(
+            disk_fig,
+            width="stretch"
+        )
+
+    except Exception:
+
+        st.info(
+            "Not enough log data available yet."
+        )
 
 # Page Configuration
 st.set_page_config(
@@ -82,6 +140,9 @@ if menu == "Dashboard":
         st.success(
             "✅ No alerts detected. System is operating normally."
         )
+        st.divider()
+
+        show_live_graphs()
 
 # Memory Monitor
 elif menu == "Memory Monitor":
