@@ -10,7 +10,7 @@ from process_monitor import (
 )
 from health_score import calculate_health_score
 from alert_manager import get_alerts
-
+from logger import log_system_data
 
 # Page Configuration
 st.set_page_config(
@@ -42,6 +42,8 @@ menu = st.sidebar.radio(
 if menu == "Dashboard":
 
     st.header("Dashboard")
+
+    log_system_data()
 
     st.write(
         "Welcome to the Smart Computer Lab Resource Monitoring & Analytics System"
