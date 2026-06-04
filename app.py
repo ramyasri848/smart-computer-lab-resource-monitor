@@ -2,7 +2,12 @@ import streamlit as st
 from cpu_monitor import get_cpu_info
 from memory_monitor import get_memory_info
 from disk_monitor import get_disk_info, get_drive_info
-from process_monitor import get_processes, get_process_names
+from process_monitor import (
+    get_processes,
+    get_process_names,
+    get_top_cpu_processes,
+    get_top_memory_processes
+)
 
 # Page Configuration
 st.set_page_config(
@@ -151,6 +156,7 @@ elif menu == "Disk Monitor":
 
 # Process Monitor
 elif menu == "Process Monitor":
+
     st.header("Process Monitor")
 
     process_names = get_process_names()
@@ -165,14 +171,35 @@ elif menu == "Process Monitor":
     st.subheader("Running Processes")
 
     st.dataframe(
-    processes,
-    width="stretch"
-)
+        processes,
+        width="stretch"
+    )
 
     st.success(
         f"Total Processes Found: {len(processes)}"
     )
 
+    st.divider()
+
+    st.subheader("Top CPU Consumers")
+
+    cpu_df = get_top_cpu_processes()
+
+    st.dataframe(
+        cpu_df,
+        width="stretch"
+    )
+
+    st.divider()
+
+    st.subheader("Top Memory Consumers")
+
+    memory_df = get_top_memory_processes()
+
+    st.dataframe(
+        memory_df,
+        width="stretch"
+    )
 # Network Monitor
 elif menu == "Network Monitor":
     st.header("Network Monitor")
