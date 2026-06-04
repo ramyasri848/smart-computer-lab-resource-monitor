@@ -8,6 +8,8 @@ from process_monitor import (
     get_top_cpu_processes,
     get_top_memory_processes
 )
+from health_score import calculate_health_score
+
 
 # Page Configuration
 st.set_page_config(
@@ -37,10 +39,30 @@ menu = st.sidebar.radio(
 
 # Dashboard
 if menu == "Dashboard":
+
     st.header("Dashboard")
+
     st.write(
         "Welcome to the Smart Computer Lab Resource Monitoring & Analytics System"
     )
+
+    health = calculate_health_score()
+
+    st.subheader("System Health Score")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.metric(
+            "Health Score",
+            f"{health['score']}/100"
+        )
+
+    with col2:
+        st.metric(
+            "System Status",
+            health["status"]
+        )
 
 # CPU Monitor
 elif menu == "CPU Monitor":
