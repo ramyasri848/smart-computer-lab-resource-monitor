@@ -13,6 +13,7 @@ from alert_manager import get_alerts
 from logger import log_system_data
 import pandas as pd
 import plotly.express as px
+from analytics import get_analytics
 
 def show_live_graphs():
 
@@ -279,8 +280,59 @@ elif menu == "Network Monitor":
 
 # Analytics
 elif menu == "Analytics":
-    st.header("Analytics")
-    st.info("Analytics Dashboard Coming Soon")
+
+    st.header("Analytics Dashboard")
+
+    analytics = get_analytics()
+
+    if analytics:
+
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.metric(
+                "Average CPU Usage",
+                f"{analytics['avg_cpu']}%"
+            )
+
+        with col2:
+            st.metric(
+                "Average RAM Usage",
+                f"{analytics['avg_ram']}%"
+            )
+
+        with col3:
+            st.metric(
+                "Average Disk Usage",
+                f"{analytics['avg_disk']}%"
+            )
+
+        st.divider()
+
+        col4, col5, col6 = st.columns(3)
+
+        with col4:
+            st.metric(
+                "Highest CPU Usage",
+                f"{analytics['max_cpu']}%"
+            )
+
+        with col5:
+            st.metric(
+                "Highest RAM Usage",
+                f"{analytics['max_ram']}%"
+            )
+
+        with col6:
+            st.metric(
+                "Highest Disk Usage",
+                f"{analytics['max_disk']}%"
+            )
+
+    else:
+        st.warning(
+            "No analytics data available."
+        )
 
 # Reports
 elif menu == "Reports":
