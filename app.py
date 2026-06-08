@@ -14,7 +14,10 @@ from logger import log_system_data
 import pandas as pd
 import plotly.express as px
 from analytics import get_analytics
-from report_generator import generate_report
+from report_generator import (
+    generate_report,
+    generate_pdf_report
+)
 import os
 
 def show_live_graphs():
@@ -350,31 +353,69 @@ elif menu == "Reports":
         if success:
 
             st.success(
-                "Report Generated Successfully!"
+                "CSV Report Generated Successfully!"
             )
 
         else:
 
             st.error(
-                "Unable to Generate Report."
+                "Unable to Generate CSV Report."
             )
 
-    report_path = (
+    if st.button(
+        "Generate PDF Report"
+    ):
+
+        success = generate_pdf_report()
+
+        if success:
+
+            st.success(
+                "PDF Report Generated Successfully!"
+            )
+
+        else:
+
+            st.error(
+                "Unable to Generate PDF Report."
+            )
+
+    csv_path = (
         "reports/daily_report.csv"
     )
 
     if os.path.exists(
-        report_path
+        csv_path
     ):
 
         with open(
-            report_path,
+            csv_path,
             "rb"
         ) as file:
 
             st.download_button(
-                label="Download Report",
+                label="Download CSV Report",
                 data=file,
                 file_name="daily_report.csv",
                 mime="text/csv"
+            )
+
+    pdf_path = (
+        "reports/daily_report.pdf"
+    )
+
+    if os.path.exists(
+        pdf_path
+    ):
+
+        with open(
+            pdf_path,
+            "rb"
+        ) as file:
+
+            st.download_button(
+                label="Download PDF Report",
+                data=file,
+                file_name="daily_report.pdf",
+                mime="application/pdf"
             )
