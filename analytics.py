@@ -17,5 +17,10 @@ def get_analytics():
 
         return analytics
 
-    except:
-        return None
+    except Exception as e:
+
+     print(
+        f"Analytics Error: {e}"
+    )
+
+    return None

@@ -87,9 +87,13 @@ def generate_report():
 
         return True
 
-    except:
+    except Exception as e:
 
-        return False
+     print(
+        f"Error: {e}"
+    )
+
+    return False
 
 
 def generate_pdf_report():
@@ -170,6 +174,10 @@ def generate_pdf_report():
 
         return True
 
-    except:
+    except Exception as e:
 
-        return False
+     print(
+        f"Error: {e}"
+    )
+
+    return False
