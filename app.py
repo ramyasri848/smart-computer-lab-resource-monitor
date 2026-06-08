@@ -14,7 +14,7 @@ from logger import log_system_data
 import pandas as pd
 import plotly.express as px
 from analytics import get_analytics
-
+from report_generator import generate_report
 
 def show_live_graphs():
 
@@ -337,5 +337,23 @@ elif menu == "Analytics":
     
 # Reports
 elif menu == "Reports":
+
     st.header("Reports")
-    st.info("Reports Module Coming Soon")
+
+    if st.button(
+        "Generate Daily Report"
+    ):
+
+        success = generate_report()
+
+        if success:
+
+            st.success(
+                "Report Generated Successfully!"
+            )
+
+        else:
+
+            st.error(
+                "Unable to Generate Report."
+            )
