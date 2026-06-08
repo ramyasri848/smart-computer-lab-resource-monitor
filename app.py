@@ -14,7 +14,7 @@ from logger import log_system_data
 import pandas as pd
 import plotly.express as px
 from analytics import get_analytics
-from lab_statistics import get_lab_statistics
+
 
 def show_live_graphs():
 
@@ -334,44 +334,6 @@ elif menu == "Analytics":
         st.warning(
             "No analytics data available."
         )
-    st.divider()
-
-    st.subheader(
-        "Simulated Lab Statistics"
-    )
-
-    lab = get_lab_statistics()
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-
-        st.metric(
-            "Total PCs",
-            lab["total_pcs"]
-        )
-
-        st.metric(
-            "PCs Online",
-            lab["online_pcs"]
-        )
-
-    with col2:
-
-        st.metric(
-            "Average CPU Load",
-            f"{lab['average_cpu']}%"
-        )
-
-        st.metric(
-            "Average RAM Load",
-            f"{lab['average_ram']}%"
-        )
-
-    st.metric(
-        "Highest Load Machine",
-        lab["highest_load_machine"]
-    )
     
 # Reports
 elif menu == "Reports":
