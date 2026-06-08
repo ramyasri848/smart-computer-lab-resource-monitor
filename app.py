@@ -15,6 +15,7 @@ import pandas as pd
 import plotly.express as px
 from analytics import get_analytics
 from report_generator import generate_report
+import os
 
 def show_live_graphs():
 
@@ -356,4 +357,24 @@ elif menu == "Reports":
 
             st.error(
                 "Unable to Generate Report."
+            )
+
+    report_path = (
+        "reports/daily_report.csv"
+    )
+
+    if os.path.exists(
+        report_path
+    ):
+
+        with open(
+            report_path,
+            "rb"
+        ) as file:
+
+            st.download_button(
+                label="Download Report",
+                data=file,
+                file_name="daily_report.csv",
+                mime="text/csv"
             )
