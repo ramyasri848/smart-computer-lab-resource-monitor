@@ -19,7 +19,7 @@ from report_generator import (
     generate_pdf_report
 )
 import os
-
+from background_monitor import start_monitoring
 def show_live_graphs():
 
     try:
@@ -81,6 +81,8 @@ st.set_page_config(
     page_title="Smart Computer Lab Resource Monitoring & Analytics System",
     layout="wide"
 )
+
+start_monitoring()
 
 # Title
 st.title("Smart Computer Lab Resource Monitoring & Analytics System")
